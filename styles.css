@@ -221,7 +221,7 @@ h3 {
 h1 {
   max-width: 12ch;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3.6rem, 9.5vw, 7.8rem);
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
   font-weight: 500;
 }
 
