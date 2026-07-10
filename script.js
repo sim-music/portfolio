@@ -72,3 +72,71 @@ videoRows.forEach((row) => {
     videoRows.forEach((item) => item.classList.toggle("is-active", item === row));
   });
 });
+const carousel = document.querySelector(".projects-carousel");
+const cards = document.querySelectorAll(".project-card");
+const nextButton = document.querySelector(".projects-arrow");
+const dots = document.querySelectorAll(".project-dot");
+
+let currentProject = 0;
+
+function updateProjectsSlider() {
+  if (!carousel) return;
+
+  carousel.style.transform =
+    `translateX(-${currentProject * 100}%)`;
+
+  dots.forEach((dot, index) => {
+    dot.classList.toggle(
+      "active",
+      index === currentProject
+    );
+  });
+}
+
+if (nextButton) {
+  nextButton.addEventListener("click", () => {
+    currentProject++;
+
+    if (currentProject >= cards.length) {
+      currentProject = 0;
+    }
+
+    updateProjectsSlider();
+  });
+}
+
+dots.forEach((dot, index) => {
+  dot.addEventListener("click", () => {
+    currentProject = index;
+    updateProjectsSlider();
+  });
+});
+let touchStartX = 0;
+
+carousel?.addEventListener("touchstart", (e) => {
+  touchStartX = e.touches[0].clientX;
+});
+
+carousel?.addEventListener("touchend", (e) => {
+  const touchEndX =
+    e.changedTouches[0].clientX;
+
+  const delta =
+    touchStartX - touchEndX;
+
+  if (delta > 50) {
+    currentProject =
+      (currentProject + 1) %
+      cards.length;
+
+    updateProjectsSlider();
+  }
+
+  if (delta < -50) {
+    currentProject =
+      (currentProject - 1 + cards.length) %
+      cards.length;
+
+    updateProjectsSlider();
+  }
+});
